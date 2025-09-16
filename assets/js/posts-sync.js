@@ -6,7 +6,7 @@ const postsData = [
     link: "single.html",
     date: "2025-09-16",
     author: { name: "Joseph Song", img: "Christmas1.png" },
-    img: { src: "images/pic01.jpg", alt: "" },
+    img: { src: "images/pic01.jpg", alt: "크리스마스 사진" },
     content: "Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at."
   },
   {
@@ -27,7 +27,7 @@ const postsData = [
     img: { src: "images/pic03.jpg", alt: "" },
     content: "Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at."
   }
-  // 필요하면 여기 글 추가 가능
+  // 필요하면 글 추가 가능
 ];
 
 // main과 sidebar 동기화 함수
@@ -35,11 +35,12 @@ function renderPosts() {
   const main = document.querySelector("#main");
   const postsList = document.querySelector("#sidebar .posts");
 
-  main.innerHTML = "";       // main 초기화
-  postsList.innerHTML = "";  // sidebar 초기화
+  // main 초기화 (기존 main 글만 제거)
+  main.querySelectorAll(".post").forEach(el => el.remove());
 
+  // postsList 초기화하지 않고 append만 (기존 사이드바 구조 유지)
   postsData.forEach(post => {
-    // main용 HTML
+    // main용 HTML 생성
     const mainArticle = document.createElement("article");
     mainArticle.classList.add("post");
     mainArticle.innerHTML = `
@@ -63,7 +64,7 @@ function renderPosts() {
     `;
     main.appendChild(mainArticle);
 
-    // sidebar용 HTML
+    // sidebar용 HTML 생성 (기존 구조 유지, append)
     const li = document.createElement("li");
     li.innerHTML = `
       <article>
