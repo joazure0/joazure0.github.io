@@ -1,18 +1,16 @@
 async function renderPosts() {
   try {
-    // posts.json 불러오기
     const response = await fetch("posts.json");
     const postsData = await response.json();
 
     const main = document.querySelector("#main");
     const postsList = document.querySelector("#sidebar .posts");
 
-    // 기존 글만 제거
+    // main 영역 기존 포스트만 제거
     main.querySelectorAll(".post").forEach(el => el.remove());
-    postsList.innerHTML = "";
 
     postsData.forEach(post => {
-      // main용 HTML
+      // 메인용 포스트
       const mainArticle = document.createElement("article");
       mainArticle.classList.add("post");
       mainArticle.innerHTML = `
@@ -43,7 +41,7 @@ async function renderPosts() {
       `;
       main.appendChild(mainArticle);
 
-      // sidebar용 HTML
+      // 사이드바용 포스트
       const li = document.createElement("li");
       li.innerHTML = `
         <article>
@@ -65,5 +63,4 @@ async function renderPosts() {
   }
 }
 
-// DOM 로딩 후 실행
 document.addEventListener("DOMContentLoaded", renderPosts);
