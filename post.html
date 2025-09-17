@@ -1,99 +1,76 @@
 <!DOCTYPE HTML>
-<html lang="ko">
+<html>
 <head>
-    <meta charset="utf-8" />
     <title>블로그 글 - Future Imperfect</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 <body class="single is-preload">
 
 <div id="wrapper">
 
-    <!-- Header -->
+    <!-- Header & Menu 동일하게 유지 -->
     <header id="header">
-        <h1><a href="index.html">Joseph의 블로그</a></h1>
-        <nav class="main">
-            <ul>
-                <li class="menu"><a class="fa-bars" href="#menu">Menu</a></li>
-            </ul>
-        </nav>
+        <h1><a href="index.html">Future Imperfect</a></h1>
     </header>
 
-    <!-- Menu -->
-    <section id="menu">
-        <section>
-            <ul class="links" id="sidebar-links">
-                <!-- JS가 posts.json을 기반으로 글 제목 자동 생성 -->
-            </ul>
-        </section>
-    </section>
-
     <!-- Main -->
-    <div id="main" class="post-container">
-        <!-- JS가 글 내용을 여기 넣음 -->
+    <div id="main">
+        <article class="post" id="post-content">
+            <!-- 글 내용은 JS에서 채움 -->
+        </article>
     </div>
 
-    <!-- Footer -->
+    <!-- Footer 동일하게 유지 -->
     <section id="footer">
-        <p class="copyright">&copy; Joseph Song</p>
+        <p>&copy; Joseph Song</p>
     </section>
-
 </div>
 
 <!-- Scripts -->
 <script src="assets/js/jquery.min.js"></script>
-<script src="assets/js/browser.min.js"></script>
-<script src="assets/js/breakpoints.min.js"></script>
-<script src="assets/js/util.js"></script>
-<script src="assets/js/main.js"></script>
-
-<!-- 글 불러오기 -->
 <script>
-    // URL에서 ?id=1 형태로 글 ID 가져오기
-    const urlParams = new URLSearchParams(window.location.search);
-    const postId = urlParams.get('id');
+(async function() {
+    // URL 파라미터 읽기
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get('id'));
+
+    if (!id) {
+        document.getElementById('post-content').innerHTML = "<p>잘못된 글 요청입니다.</p>";
+        return;
+    }
 
     // posts.json 불러오기
-    fetch('posts.json')
-        .then(res => res.json())
-        .then(posts => {
-            const post = posts.find(p => p.id == postId);
-            if (!post) {
-                document.querySelector('#main').innerHTML = '<p>글을 찾을 수 없습니다.</p>';
-                return;
-            }
+    const res = await fetch('posts.json');
+    const posts = await res.json();
 
-            // 글 내용 삽입
-            const main = document.querySelector('#main');
-            main.innerHTML = `
-                <article class="post">
-                    <header>
-                        <div class="title">
-                            <h2>${post.title}</h2>
-                            <p>${post.subtitle || ''}</p>
-                        </div>
-                        <div class="meta">
-                            <time class="published" datetime="${post.date}">
-                                ${new Date(post.date).toLocaleDateString()}
-                            </time>
-                            <span class="author">${post.author.name}</span>
-                        </div>
-                    </header>
-                    ${post.img ? `<span class="image featured"><img src="${post.img.src}" alt="${post.img.alt}" /></span>` : ''}
-                    <p>${post.content}</p>
-                </article>
-            `;
+    const post = posts.find(p => p.id === id);
 
-            // 사이드바 링크 생성
-            const sidebar = document.getElementById('sidebar-links');
-            posts.forEach(p => {
-                const li = document.createElement('li');
-                li.innerHTML = `<a href="post.html?id=${p.id}">${p.title}</a>`;
-                sidebar.appendChild(li);
-            });
-        });
+    if (!post) {
+        document.getElementById('post-content').innerHTML = "<p>글을 찾을 수 없습니다.</p>";
+        return;
+    }
+
+    // 글 HTML 생성
+    document.getElementById('post-content').innerHTML = `
+        <header>
+            <div class="title">
+                <h2>${post.title}</h2>
+                <p>${post.subtitle}</p>
+            </div>
+            <div class="meta">
+                <time class="published">${new Date(post.date).toLocaleDateString()}</time>
+                <a href="#" class="author">
+                    <span class="name">${post.author.name}</span>
+                    <img src="${post.author.img}" alt="" />
+                </a>
+            </div>
+        </header>
+        <span class="image featured"><img src="${post.img.src}" alt="${post.img.alt}" /></span>
+        ${post.content}
+    `;
+})();
 </script>
-
 </body>
 </html>
