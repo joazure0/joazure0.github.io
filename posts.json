@@ -4,7 +4,7 @@
     "title": "나의 첫 블로그 글",
     "subtitle": "오늘은 깃허브 블로그를 만들었어요.",
     "date": "2025-09-16",
-    "author": { "name": "Joseph Song", "img": "Christmas2.png" },
+    "author": { "name": "Joseph Song", "img": "test.png" },
     "img": { "src": "Christmas1.png", "alt": "크리스마스 사진" },
     "content": "<p>오늘은 깃허브 블로그를 만들었어요.</p><h2>소제목</h2><ul><li>HTML 템플릿 적용 완료</li><li>GitHub Pages 배포 완료</li></ul><p><strong>강조</strong>나 <em>기울임</em>도 가능</p>"
   },
