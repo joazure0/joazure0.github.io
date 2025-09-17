@@ -2,28 +2,19 @@
   {
     "title": "테스트",
     "subtitle": "크리스마스 사진",
-    "link": "single.html",
+    "link": "post1.html",
     "date": "2025-09-16",
     "author": { "name": "Joseph Song", "img": "Christmas1.png" },
-    "img": { "src": "images/pic01.jpg", "alt": "크리스마스 사진" },
-    "content": "Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl..."
+    "img": { "src": "Christmas2.png", "alt": "크리스마스 사진" },
+    "content": "생략"
   },
   {
-    "title": "Ultricies sed magna euismod",
-    "subtitle": "Lorem ipsum dolor amet nullam consequat",
-    "link": "post2.html",
-    "date": "2015-10-25",
-    "author": { "name": "Jane Doe", "img": "images/avatar.jpg" },
-    "img": { "src": "images/pic02.jpg", "alt": "" },
-    "content": "Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl..."
-  },
-  {
-    "title": "Euismod et accumsan",
-    "subtitle": "Lorem ipsum dolor amet nullam consequat",
-    "link": "post3.html",
-    "date": "2015-10-22",
-    "author": { "name": "Jane Doe", "img": "images/avatar.jpg" },
-    "img": { "src": "images/pic03.jpg", "alt": "" },
-    "content": "Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl..."
+    "title": "테스트2",
+    "subtitle": "빈칸",
+    "link": "post1.html",
+    "date": "2025-09-17",
+    "author": { "name": "Joseph Song", "img": "Christmas2.png" },
+    "img": { "src": "Christmas1.png", "alt": "" },
+    "content": "생략2"
   }
 ]
