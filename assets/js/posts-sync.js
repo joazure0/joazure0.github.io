@@ -11,7 +11,25 @@ async function renderPosts() {
     main.querySelectorAll(".post").forEach(el => el.remove());
 
     // sidebar의 ul.posts 내용만 초기화
-    postsList.innerHTML = "";
+    // postsList.innerHTML = ""; // 제거
+    postsData.forEach(post => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <article>
+          <header>
+            <h3><a href="${post.link}">${post.title}</a></h3>
+            <time class="published" datetime="${post.date}">
+              ${new Date(post.date).toLocaleDateString()}
+            </time>
+          </header>
+          <a href="${post.link}" class="image">
+            <img src="${post.img.src}" alt="${post.img.alt}" />
+          </a>
+        </article>
+      `;
+      postsList.appendChild(li);
+    });
+
 
     postsData.forEach(post => {
       // main용 HTML
