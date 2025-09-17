@@ -1,12 +1,20 @@
-const main = document.getElementById("main");
-const sidebarPosts = document.querySelector(".posts");
+async function renderPosts() {
+  try {
+    // posts.json 불러오기
+    const response = await fetch("posts.json");
+    const postsData = await response.json();
 
-fetch("posts.json")
-  .then(response => response.json())
-  .then(postsData => {
+    const main = document.querySelector("#main");
+    const postsList = document.querySelector("#sidebar .posts"); // ul.posts가 있어야 함
+
+    // main 영역 기존 글 제거
+    main.querySelectorAll(".post").forEach(el => el.remove());
+
+    // sidebar ul.posts 초기화
+    postsList.innerHTML = "";
 
     postsData.forEach(post => {
-      // 메인 화면용 article
+      // --- main용 article 생성 ---
       const mainArticle = document.createElement("article");
       mainArticle.classList.add("post");
       mainArticle.innerHTML = `
@@ -37,10 +45,28 @@ fetch("posts.json")
       `;
       main.appendChild(mainArticle);
 
-      // 사이드바 목록용 li
+      // --- sidebar용 li 생성 ---
       const li = document.createElement("li");
-      li.innerHTML = `<a href="${post.link}">${post.title}</a>`;
-      sidebarPosts.appendChild(li);
+      li.innerHTML = `
+        <article>
+          <header>
+            <h3><a href="${post.link}">${post.title}</a></h3>
+            <time class="published" datetime="${post.date}">
+              ${new Date(post.date).toLocaleDateString()}
+            </time>
+          </header>
+          <a href="${post.link}" class="image">
+            <img src="${post.img.src}" alt="${post.img.alt}" />
+          </a>
+        </article>
+      `;
+      postsList.appendChild(li);
     });
 
-  });
+  } catch (err) {
+    console.error("글 데이터를 불러오지 못했습니다:", err);
+  }
+}
+
+// DOM 로딩 후 실행
+document.addEventListener("DOMContentLoaded", renderPosts);
