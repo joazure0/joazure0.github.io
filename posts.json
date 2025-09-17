@@ -14,7 +14,7 @@
     "subtitle": "테스트 내용",
     "date": "2025-09-17",
     "author": { "name": "Joseph Song", "img": "Christmas1.png" },
-    "img": { "src": "Christmas3.png", "alt": "테스트 이미지" },
+    "img": { "src": "Christmas2.png", "alt": "테스트 이미지" },
     "content": "<p>두 번째 글 내용입니다.</p>"
   }
 ]
