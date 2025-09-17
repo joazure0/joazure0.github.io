@@ -5,16 +5,34 @@ async function renderPosts() {
     const postsData = await response.json();
 
     const main = document.querySelector("#main");
-    const postsList = document.querySelector("#sidebar .posts"); // ul.posts가 있어야 함
+    const postsList = document.querySelector("#sidebar .posts");
 
     // main 영역 기존 글 제거
     main.querySelectorAll(".post").forEach(el => el.remove());
 
-    // sidebar ul.posts 초기화
-    postsList.innerHTML = "";
+    // sidebar의 ul.posts 내용만 초기화
+    // postsList.innerHTML = ""; // 제거
+    postsData.forEach(post => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <article>
+          <header>
+            <h3><a href="${post.link}">${post.title}</a></h3>
+            <time class="published" datetime="${post.date}">
+              ${new Date(post.date).toLocaleDateString()}
+            </time>
+          </header>
+          <a href="${post.link}" class="image">
+            <img src="${post.img.src}" alt="${post.img.alt}" />
+          </a>
+        </article>
+      `;
+      postsList.appendChild(li);
+    });
+
 
     postsData.forEach(post => {
-      // --- main용 article 생성 ---
+      // main용 HTML
       const mainArticle = document.createElement("article");
       mainArticle.classList.add("post");
       mainArticle.innerHTML = `
@@ -45,7 +63,7 @@ async function renderPosts() {
       `;
       main.appendChild(mainArticle);
 
-      // --- sidebar용 li 생성 ---
+      // sidebar용 HTML (ul.posts)
       const li = document.createElement("li");
       li.innerHTML = `
         <article>
@@ -62,7 +80,6 @@ async function renderPosts() {
       `;
       postsList.appendChild(li);
     });
-
   } catch (err) {
     console.error("글 데이터를 불러오지 못했습니다:", err);
   }
