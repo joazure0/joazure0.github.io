@@ -1,38 +1,51 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>나의 블로그</title>
-  <link rel="stylesheet" href="assets/css/style.css">
+  <meta charset="UTF-8" />
+  <title>내 블로그</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="assets/css/main.css" />
 </head>
-<body>
+<body class="is-preload">
   <div id="wrapper">
 
-    <!-- 사이드바 -->
-    <aside id="sidebar">
-      <h2>최근 글</h2>
-      <ul class="posts">
-        <!-- JS가 posts.json에서 포스트를 가져와 여기에 추가 -->
-      </ul>
+    <!-- Main -->
+    <div id="main">
+      <!-- posts-sync.js가 여기 내용을 자동 생성 -->
+    </div>
 
-      <section class="sidebar-extra">
-        <h3>기타 메뉴</h3>
-        <ul>
-          <li><a href="#">홈</a></li>
-          <li><a href="#">소개</a></li>
-          <li><a href="#">문의</a></li>
+    <!-- Sidebar -->
+    <section id="sidebar">
+      <!-- 소개 -->
+      <section>
+        <h2>About</h2>
+        <p>안녕하세요, Joseph Song의 블로그입니다. 🎉</p>
+      </section>
+
+      <!-- 포스트 목록 -->
+      <section>
+        <h2>Posts</h2>
+        <ul class="posts"><!-- posts-sync.js에서 자동 채움 --></ul>
+      </section>
+
+      <!-- 연락처 -->
+      <section>
+        <h2>Contact</h2>
+        <ul class="icons">
+          <li><a href="mailto:ssyakmu@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+          <li><a href="https://github.com/joazure0" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
         </ul>
       </section>
-    </aside>
-
-    <!-- 메인 영역 -->
-    <main id="main">
-      <!-- JS가 posts.json에서 포스트를 가져와 여기에 추가 -->
-    </main>
-
+    </section>
   </div>
 
-  <!-- JS -->
-  <script src="assets/js/posts-sync.js" defer></script>
+  <!-- Scripts -->
+  <script src="assets/js/jquery.min.js"></script>
+  <script src="assets/js/browser.min.js"></script>
+  <script src="assets/js/breakpoints.min.js"></script>
+  <script src="assets/js/util.js"></script>
+  <script src="assets/js/main.js"></script>
+  <!-- 글 동기화 스크립트 -->
+  <script src="assets/js/posts-sync.js"></script>
 </body>
 </html>
