@@ -1,20 +1,20 @@
 [
   {
+    "id": 1,
     "title": "나의 첫 블로그 글",
     "subtitle": "오늘은 깃허브 블로그를 만들었어요.",
-    "link": "post.html",
     "date": "2025-09-16",
     "author": { "name": "Joseph Song", "img": "Christmas1.png" },
-    "img": { "src": "Christmas2.png", "alt": "" },
-    "content": "오늘은 깃허브 블로그를 만들었어요. HTML 템플릿 적용 완료, GitHub Pages 배포 완료."
+    "img": { "src": "Christmas2.png", "alt": "크리스마스 사진" },
+    "content": "<p>오늘은 깃허브 블로그를 만들었어요.</p><h2>소제목</h2><ul><li>HTML 템플릿 적용 완료</li><li>GitHub Pages 배포 완료</li></ul><p><strong>강조</strong>나 <em>기울임</em>도 가능</p>"
   },
   {
+    "id": 2,
     "title": "두 번째 글",
-    "subtitle": "블로그 연습용 글",
-    "link": "post.html",
+    "subtitle": "테스트 내용",
     "date": "2025-09-17",
     "author": { "name": "Joseph Song", "img": "Christmas1.png" },
-    "img": { "src": "Christmas3.png", "alt": "" },
-    "content": "두 번째 글 내용입니다."
+    "img": { "src": "Christmas3.png", "alt": "테스트 이미지" },
+    "content": "<p>두 번째 글 내용입니다.</p>"
   }
 ]
