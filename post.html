@@ -5,27 +5,30 @@
   <title>블로그 글 - Joseph의 블로그</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="assets/css/main.css" />
+  <style>
+    /* 이전/다음 버튼 간단 스타일 */
+    .post-navigation {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2rem;
+    }
+    .post-navigation a.button {
+      padding: 0.5rem 1rem;
+    }
+  </style>
 </head>
 <body class="single is-preload">
 <div id="wrapper">
 
-  <!-- Main 영역 -->
-  <div id="main">
-    <article class="post" id="post-content">
-      <!-- 단일 글 내용은 JS에서 채움 -->
-    </article>
-  </div>
-
   <!-- Sidebar -->
   <section id="sidebar">
-
     <!-- About -->
     <section>
       <h2>About</h2>
       <p>안녕하세요, Joseph Song의 블로그입니다. 🎉</p>
     </section>
 
-    <!-- Posts 목록 -->
+    <!-- Posts -->
     <section>
       <h2>Posts</h2>
       <ul class="posts"><!-- JS에서 자동 채움 --></ul>
@@ -39,72 +42,73 @@
         <li><a href="https://github.com/joazure0" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
       </ul>
     </section>
-
   </section>
+
+  <!-- Main -->
+  <div id="main">
+    <article class="post" id="post-content"><!-- JS에서 단일 포스트 표시 --></article>
+  </div>
 
 </div>
 
 <!-- Scripts -->
-<script src="assets/js/jquery.min.js"></script>
 <script>
 (async function() {
-  const params = new URLSearchParams(window.location.search);
-  const id = parseInt(params.get('id'));
-  const main = document.querySelector("#main");
   const postsList = document.querySelector("#sidebar .posts");
+  const postContent = document.getElementById("post-content");
+
+  // URL에서 id 가져오기
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get('id')) || 1; // id 없으면 1번
 
   // posts.json 불러오기
   const res = await fetch('posts.json');
   const posts = await res.json();
-  const post = posts.find(p => p.id === id);
 
-  if (!post) {
-    main.innerHTML = "<p>글을 찾을 수 없습니다.</p>";
-    return;
-  }
-
-  // 오른쪽 main에 단일 글 출력
-  main.innerHTML = `
-    <article class="post">
-      <header>
-        <div class="title">
-          <h2>${post.title}</h2>
-          ${post.subtitle ? `<p>${post.subtitle}</p>` : ""}
-        </div>
-        <div class="meta">
-          ${post.date ? `<time class="published">${new Date(post.date).toLocaleDateString()}</time>` : ""}
-          ${post.author ? `<a href="#" class="author"><span class="name">${post.author.name}</span>${post.author.img ? `<img src="${post.author.img}" alt="" />` : ""}</a>` : ""}
-        </div>
-      </header>
-      ${post.img ? `<span class="image featured"><img src="${post.img.src}" alt="${post.img.alt || ""}" /></span>` : ""}
-      ${post.content || ""}
-    </article>
-  `;
-
-  // 이전/다음 버튼
-  const postIndex = posts.findIndex(p => p.id === id);
-  const footerHTML = document.createElement('footer');
-  footerHTML.innerHTML = "<ul class='actions'>";
-  if(postIndex > 0) footerHTML.innerHTML += `<li><a href="post.html?id=${posts[postIndex-1].id}" class="button">Previous</a></li>`;
-  if(postIndex < posts.length-1) footerHTML.innerHTML += `<li><a href="post.html?id=${posts[postIndex+1].id}" class="button">Next</a></li>`;
-  footerHTML.innerHTML += "</ul>";
-  main.querySelector('.post').appendChild(footerHTML);
-
-  // 사이드바 글 목록 채우기
-  postsList.innerHTML = "";
-  posts.forEach(p => {
-    const li = document.createElement("li");
+  // 사이드바: 전체 포스트 목록 채우기
+  postsList.innerHTML = '';
+  posts.forEach(post => {
+    const li = document.createElement('li');
     li.innerHTML = `
       <article>
         <header>
-          <h3><a href="post.html?id=${p.id}">${p.title}</a></h3>
-          ${p.date ? `<time class="published">${new Date(p.date).toLocaleDateString()}</time>` : ""}
+          <h3><a href="post.html?id=${post.id}">${post.title}</a></h3>
+          ${post.date ? `<time class="published">${new Date(post.date).toLocaleDateString()}</time>` : ''}
         </header>
-      </article>
-    `;
+      </article>`;
     postsList.appendChild(li);
   });
 
+  // 단일 포스트 찾기
+  const post = posts.find(p => p.id === id);
+  if (!post) {
+    postContent.innerHTML = "<p>해당 글을 찾을 수 없습니다.</p>";
+    return;
+  }
+
+  // 포스트 내용 생성
+  postContent.innerHTML = `
+    <header>
+      <div class="title">
+        <h2>${post.title}</h2>
+        ${post.subtitle ? `<p>${post.subtitle}</p>` : ''}
+      </div>
+      <div class="meta">
+        ${post.date ? `<time class="published">${new Date(post.date).toLocaleDateString()}</time>` : ''}
+        ${post.author ? `<a href="#" class="author">
+          <span class="name">${post.author.name || ''}</span>
+          ${post.author.img ? `<img src="${post.author.img}" alt="" />` : ''}
+        </a>` : ''}
+      </div>
+    </header>
+    ${post.img ? `<span class="image featured"><img src="${post.img.src}" alt="${post.img.alt || ''}" /></span>` : ''}
+    ${post.content || ''}
+
+    <div class="post-navigation">
+      ${posts.find(p => p.id < id) ? `<a href="post.html?id=${id-1}" class="button">이전 글</a>` : '<span></span>'}
+      ${posts.find(p => p.id > id) ? `<a href="post.html?id=${id+1}" class="button">다음 글</a>` : '<span></span>'}
+    </div>
+  `;
 })();
 </script>
 </body>
