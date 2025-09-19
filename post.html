@@ -19,14 +19,14 @@
     <div id="main">
         <article class="post" id="post-content"></article>
 
-        <!-- 이전/다음 버튼 -->
+        <!-- 이전/다음 버튼은 포스트 아래에 위치 -->
         <div id="post-navigation" style="margin-top:20px;">
             <button id="prev-post" style="margin-right:10px;">&laquo; 이전 글</button>
             <button id="next-post">다음 글 &raquo;</button>
         </div>
     </div>
 
-    <!-- Sidebar (원래 템플릿 그대로) -->
+    <!-- Sidebar -->
     <section id="sidebar">
         <section>
             <h2>About</h2>
@@ -49,7 +49,6 @@
 
 </div>
 
-<!-- Scripts -->
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/posts-sync.js"></script>
 <script>
@@ -69,6 +68,8 @@
 
     const res = await fetch('posts.json');
     const posts = await res.json();
+
+    // 글 찾기
     const post = posts.find(p => p.id === id);
 
     if (!post) {
@@ -78,7 +79,7 @@
         return;
     }
 
-    // 글 내용 채우기
+    // 글 내용 렌더링 (한 글만 표시)
     contentEl.innerHTML = `
         <header>
             <div class="title">
@@ -97,13 +98,14 @@
         ${post.content ? `<p>${post.content}</p>` : ''}
     `;
 
-    // 이전/다음 글 찾기
+    // 이전/다음 버튼 설정
     const sortedPosts = posts.sort((a,b) => a.id - b.id);
     const currentIndex = sortedPosts.findIndex(p => p.id === id);
 
     const prevPost = sortedPosts[currentIndex - 1];
     const nextPost = sortedPosts[currentIndex + 1];
 
+    // 이전 버튼
     if (prevPost) {
         prevBtn.style.display = 'inline-block';
         prevBtn.onclick = () => window.location.href = `post.html?id=${prevPost.id}`;
@@ -111,6 +113,7 @@
         prevBtn.style.display = 'none';
     }
 
+    // 다음 버튼
     if (nextPost) {
         nextBtn.style.display = 'inline-block';
         nextBtn.onclick = () => window.location.href = `post.html?id=${nextPost.id}`;
