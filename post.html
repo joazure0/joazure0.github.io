@@ -14,9 +14,35 @@
     <h1><a href="index.html">Joseph의 블로그</a></h1>
   </header>
 
-  <!-- Main -->
-  <div id="main">
-    <div id="post-content"></div>
+  <div id="main-wrapper">
+    <!-- Main 글 영역 -->
+    <div id="main">
+      <div id="post-content"></div>
+    </div>
+
+    <!-- Sidebar 유지 -->
+    <section id="sidebar">
+      <!-- 소개 -->
+      <section>
+        <h2>About</h2>
+        <p>안녕하세요, Joseph Song의 블로그입니다. 🎉</p>
+      </section>
+
+      <!-- 포스트 목록 -->
+      <section>
+        <h2>Posts</h2>
+        <ul class="posts"><!-- JS에서 자동 채움 --></ul>
+      </section>
+
+      <!-- 연락처 -->
+      <section>
+        <h2>Contact</h2>
+        <ul class="icons">
+          <li><a href="mailto:ssyakmu@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+          <li><a href="https://github.com/joazure0" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+        </ul>
+      </section>
+    </section>
   </div>
 
   <!-- Footer -->
@@ -66,6 +92,22 @@
     ${currentIndex < posts.length-1 ? `<a href="post.html?id=${posts[currentIndex+1].id}" class="button">Next</a>` : ""}
   `;
   container.appendChild(nav);
+
+  // 사이드바 포스트 목록 동기화
+  const postsList = document.querySelector("#sidebar .posts");
+  postsList.innerHTML = "";
+  posts.forEach(p => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <article>
+        <header>
+          <h3><a href="post.html?id=${p.id}">${p.title}</a></h3>
+          ${p.date ? `<time class="published">${new Date(p.date).toLocaleDateString()}</time>` : ""}
+        </header>
+      </article>`;
+    postsList.appendChild(li);
+  });
+
 })();
 </script>
 </body>
