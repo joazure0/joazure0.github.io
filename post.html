@@ -1,70 +1,118 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>블로그 글</title>
-  <link rel="stylesheet" href="assets/css/main.css">
+    <meta charset="UTF-8" />
+    <title>블로그 글 - Joseph의 블로그</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/main.css" />
 </head>
-<body>
-  <!-- 글이 들어갈 자리 -->
-  <section id="post-content"></section>
+<body class="single is-preload">
 
-  <script>
-    // posts.json 파일을 불러오기
-    fetch("posts.json")
-      .then(response => response.json()) // JSON 데이터를 자바스크립트 객체로 변환
-      .then(posts => {
-        // 주소창에서 ?id=값 읽어오기
-        const urlParams = new URLSearchParams(window.location.search);
-        const postId = urlParams.get("id");
+<div id="wrapper">
 
-        // posts.json 안에서 id가 같은 글 찾기
-        const post = posts.find(p => p.id == postId);
+    <!-- Header -->
+    <header id="header">
+        <h1><a href="index.html">Joseph의 블로그</a></h1>
+    </header>
 
-        if (post) {
-          // 글이 존재할 때 HTML 코드로 보여주기
-          document.getElementById("post-content").innerHTML = `
-            <header>
-              <div class="title">
+    <!-- Main -->
+    <div id="main">
+        <article class="post" id="post-content"></article>
+
+        <!-- 이전/다음 버튼 -->
+        <div id="post-navigation" style="margin-top:20px;">
+            <button id="prev-post" style="margin-right:10px;">&laquo; 이전 글</button>
+            <button id="next-post">다음 글 &raquo;</button>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <section id="sidebar">
+        <!-- 소개 -->
+        <section>
+            <h2>About</h2>
+            <p>안녕하세요, Joseph Song의 블로그입니다. 🎉</p>
+        </section>
+
+        <!-- 포스트 목록 -->
+        <section>
+            <h2>Posts</h2>
+            <ul class="posts"><!-- posts-sync.js에서 자동 채움 --></ul>
+        </section>
+
+        <!-- 연락처 -->
+        <section>
+            <h2>Contact</h2>
+            <ul class="icons">
+                <li><a href="mailto:ssyakmu@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+                <li><a href="https://github.com/joazure0" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+            </ul>
+        </section>
+    </section>
+
+</div>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/posts-sync.js"></script>
+<script>
+(async function() {
+    const params = new URLSearchParams(window.location.search);
+    const id = parseInt(params.get('id'));
+    const contentEl = document.getElementById('post-content');
+    const prevBtn = document.getElementById('prev-post');
+    const nextBtn = document.getElementById('next-post');
+
+    if (!id) {
+        contentEl.innerHTML = "<p>잘못된 글 요청입니다.</p>";
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        return;
+    }
+
+    const res = await fetch('posts.json');
+    const posts = await res.json();
+    const post = posts.find(p => p.id === id);
+
+    if (!post) {
+        contentEl.innerHTML = "<p>글을 찾을 수 없습니다.</p>";
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        return;
+    }
+
+    // 글 내용 채우기
+    contentEl.innerHTML = `
+        <header>
+            <div class="title">
                 <h2>${post.title}</h2>
-                <!-- subtitle이 있을 때만 출력 -->
-                ${post.subtitle ? `<p>${post.subtitle}</p>` : ""}
-              </div>
-              <div class="meta">
-                <!-- 날짜가 있을 때만 출력 -->
-                <time class="published">
-                  ${post.date ? new Date(post.date).toLocaleDateString() : ""}
-                </time>
-                <!-- author(작성자)가 있을 때만 출력 -->
-                ${
-                  post.author
-                    ? `<a href="#" class="author">
-                        <!-- 이름이 있으면 표시 -->
-                        <span class="name">${post.author.name || ""}</span>
-                        <!-- 사진이 있으면 표시 -->
-                        ${post.author.img ? `<img src="${post.author.img}" alt="" />` : ""}
-                      </a>`
-                    : ""
-                }
-              </div>
-            </header>
-            <!-- 대표 이미지(img)가 있을 때만 출력 -->
-            ${
-              post.img
-                ? `<span class="image featured">
-                     <img src="${post.img.src}" alt="${post.img.alt || ""}" />
-                   </span>`
-                : ""
-            }
-            <!-- 본문이 있으면 출력 -->
-            ${post.content || ""}
-          `;
-        } else {
-          // 글이 없으면 안내 메시지 출력
-          document.getElementById("post-content").innerHTML =
-            "<p>해당 글을 찾을 수 없습니다.</p>";
-        }
-      });
-  </script>
+                ${post.subtitle ? `<p>${post.subtitle}</p>` : ''}
+            </div>
+            <div class="meta">
+                <time class="published">${new Date(post.date).toLocaleDateString()}</time>
+                ${post.author ? `<a href="#" class="author">
+                    <span class="name">${post.author.name}</span>
+                    <img src="${post.author.img}" alt="" />
+                </a>` : ''}
+            </div>
+        </header>
+        ${post.img ? `<span class="image featured"><img src="${post.img.src}" alt="${post.img.alt}" /></span>` : ''}
+        ${post.content ? `<p>${post.content}</p>` : ''}
+    `;
+
+    // 이전/다음 글 찾기
+    const sortedPosts = posts.sort((a,b) => a.id - b.id);
+    const currentIndex = sortedPosts.findIndex(p => p.id === id);
+
+    const prevPost = sortedPosts[currentIndex - 1];
+    const nextPost = sortedPosts[currentIndex + 1];
+
+    prevBtn.style.display = prevPost ? 'inline-block' : 'none';
+    nextBtn.style.display = nextPost ? 'inline-block' : 'none';
+
+    if (prevPost) prevBtn.onclick = () => window.location.href = `post.html?id=${prevPost.id}`;
+    if (nextPost) nextBtn.onclick = () => window.location.href = `post.html?id=${nextPost.id}`;
+})();
+</script>
 </body>
 </html>

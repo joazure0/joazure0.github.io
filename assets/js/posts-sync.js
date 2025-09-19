@@ -10,31 +10,34 @@ async function renderPosts() {
     main.querySelectorAll(".post").forEach(el => el.remove());
     postsList.innerHTML = "";
 
-    postsData.forEach(post => {
+    // 글 순서대로 정렬
+    const sortedPosts = postsData.sort((a,b) => a.id - b.id);
+
+    sortedPosts.forEach(post => {
+      const postUrl = `post.html?id=${post.id}`;
+
       // 메인 영역
       const mainArticle = document.createElement("article");
       mainArticle.classList.add("post");
       mainArticle.innerHTML = `
         <header>
           <div class="title">
-            <h2><a href="post.html?id=${post.id}">${post.title}</a></h2>
-            <p>${post.subtitle}</p>
+            <h2><a href="${postUrl}">${post.title}</a></h2>
+            ${post.subtitle ? `<p>${post.subtitle}</p>` : ''}
           </div>
           <div class="meta">
             <time class="published" datetime="${post.date}">${new Date(post.date).toLocaleDateString()}</time>
-            <a href="#" class="author">
+            ${post.author ? `<a href="#" class="author">
               <span class="name">${post.author.name}</span>
               <img src="${post.author.img}" alt="" />
-            </a>
+            </a>` : ''}
           </div>
         </header>
-        <a href="post.html?id=${post.id}" class="image featured">
-          <img src="${post.img.src}" alt="${post.img.alt}" />
-        </a>
-        <p>${post.content}</p>
+        ${post.img ? `<a href="${postUrl}" class="image featured"><img src="${post.img.src}" alt="${post.img.alt}" /></a>` : ''}
+        ${post.content ? `<p>${post.content}</p>` : ''}
         <footer>
           <ul class="actions">
-            <li><a href="post.html?id=${post.id}" class="button large">Continue Reading</a></li>
+            <li><a href="${postUrl}" class="button large">Continue Reading</a></li>
           </ul>
         </footer>
       `;
@@ -45,12 +48,10 @@ async function renderPosts() {
       li.innerHTML = `
         <article>
           <header>
-            <h3><a href="post.html?id=${post.id}">${post.title}</a></h3>
+            <h3><a href="${postUrl}">${post.title}</a></h3>
             <time class="published" datetime="${post.date}">${new Date(post.date).toLocaleDateString()}</time>
           </header>
-          <a href="post.html?id=${post.id}" class="image">
-            <img src="${post.img.src}" alt="${post.img.alt}" />
-          </a>
+          ${post.img ? `<a href="${postUrl}" class="image"><img src="${post.img.src}" alt="${post.img.alt}" /></a>` : ''}
         </article>
       `;
       postsList.appendChild(li);
@@ -61,4 +62,5 @@ async function renderPosts() {
   }
 }
 
+// DOM 로딩 후 실행
 document.addEventListener("DOMContentLoaded", renderPosts);
