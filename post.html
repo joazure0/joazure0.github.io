@@ -1,72 +1,70 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8" />
-    <title>블로그 글 - Joseph의 블로그</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="assets/css/main.css" />
+  <meta charset="UTF-8">
+  <title>블로그 글</title>
+  <link rel="stylesheet" href="assets/css/main.css">
 </head>
-<body class="single is-preload">
-<div id="wrapper">
+<body>
+  <!-- 글이 들어갈 자리 -->
+  <section id="post-content"></section>
 
-    <!-- Header -->
-    <header id="header">
-        <h1><a href="index.html">Joseph의 블로그</a></h1>
-    </header>
+  <script>
+    // posts.json 파일을 불러오기
+    fetch("posts.json")
+      .then(response => response.json()) // JSON 데이터를 자바스크립트 객체로 변환
+      .then(posts => {
+        // 주소창에서 ?id=값 읽어오기
+        const urlParams = new URLSearchParams(window.location.search);
+        const postId = urlParams.get("id");
 
-    <!-- Main -->
-    <div id="main">
-        <article class="post" id="post-content">
-            <!-- 글 내용은 JS에서 채움 -->
-        </article>
-    </div>
+        // posts.json 안에서 id가 같은 글 찾기
+        const post = posts.find(p => p.id == postId);
 
-    <!-- Footer -->
-    <section id="footer">
-        <p>&copy; Joseph Song</p>
-    </section>
-</div>
-
-<!-- Scripts -->
-<script src="assets/js/jquery.min.js"></script>
-<script>
-(async function() {
-    const params = new URLSearchParams(window.location.search);
-    const id = parseInt(params.get('id'));
-
-    if (!id) {
-        document.getElementById('post-content').innerHTML = "<p>잘못된 글 요청입니다.</p>";
-        return;
-    }
-
-    const res = await fetch('posts.json');
-    const posts = await res.json();
-
-    const post = posts.find(p => p.id === id);
-
-    if (!post) {
-        document.getElementById('post-content').innerHTML = "<p>글을 찾을 수 없습니다.</p>";
-        return;
-    }
-
-    document.getElementById('post-content').innerHTML = `
-        <header>
-            <div class="title">
+        if (post) {
+          // 글이 존재할 때 HTML 코드로 보여주기
+          document.getElementById("post-content").innerHTML = `
+            <header>
+              <div class="title">
                 <h2>${post.title}</h2>
-                <p>${post.subtitle}</p>
-            </div>
-            <div class="meta">
-                <time class="published">${new Date(post.date).toLocaleDateString()}</time>
-                <a href="#" class="author">
-                    <span class="name">${post.author.name}</span>
-                    <img src="${post.author.img}" alt="" />
-                </a>
-            </div>
-        </header>
-        <span class="image featured"><img src="${post.img.src}" alt="${post.img.alt}" /></span>
-        ${post.content}
-    `;
-})();
-</script>
+                <!-- subtitle이 있을 때만 출력 -->
+                ${post.subtitle ? `<p>${post.subtitle}</p>` : ""}
+              </div>
+              <div class="meta">
+                <!-- 날짜가 있을 때만 출력 -->
+                <time class="published">
+                  ${post.date ? new Date(post.date).toLocaleDateString() : ""}
+                </time>
+                <!-- author(작성자)가 있을 때만 출력 -->
+                ${
+                  post.author
+                    ? `<a href="#" class="author">
+                        <!-- 이름이 있으면 표시 -->
+                        <span class="name">${post.author.name || ""}</span>
+                        <!-- 사진이 있으면 표시 -->
+                        ${post.author.img ? `<img src="${post.author.img}" alt="" />` : ""}
+                      </a>`
+                    : ""
+                }
+              </div>
+            </header>
+            <!-- 대표 이미지(img)가 있을 때만 출력 -->
+            ${
+              post.img
+                ? `<span class="image featured">
+                     <img src="${post.img.src}" alt="${post.img.alt || ""}" />
+                   </span>`
+                : ""
+            }
+            <!-- 본문이 있으면 출력 -->
+            ${post.content || ""}
+          `;
+        } else {
+          // 글이 없으면 안내 메시지 출력
+          document.getElementById("post-content").innerHTML =
+            "<p>해당 글을 찾을 수 없습니다.</p>";
+        }
+      });
+  </script>
 </body>
 </html>
