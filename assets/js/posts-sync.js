@@ -6,54 +6,44 @@ async function renderPosts() {
     const main = document.querySelector("#main");
     const postsList = document.querySelector("#sidebar .posts");
 
-    // main 영역 기존 포스트만 제거
+    // 기존 main 글 제거
     main.querySelectorAll(".post").forEach(el => el.remove());
+    postsList.innerHTML = "";
 
     postsData.forEach(post => {
-      // 메인용 포스트
+      // 메인 영역 요약글
       const mainArticle = document.createElement("article");
       mainArticle.classList.add("post");
       mainArticle.innerHTML = `
         <header>
           <div class="title">
-            <h2><a href="${post.link}">${post.title}</a></h2>
-            <p>${post.subtitle}</p>
+            <h2><a href="post.html?id=${post.id}">${post.title}</a></h2>
+            ${post.subtitle ? `<p>${post.subtitle}</p>` : ''}
           </div>
           <div class="meta">
-            <time class="published" datetime="${post.date}">
-              ${new Date(post.date).toLocaleDateString()}
-            </time>
-            <a href="#" class="author">
-              <span class="name">${post.author.name}</span>
-              <img src="${post.author.img}" alt="" />
-            </a>
+            <time class="published">${post.date ? new Date(post.date).toLocaleDateString() : ''}</time>
+            ${post.author ? `<span class="name">${post.author.name}</span>` : ''}
           </div>
         </header>
-        <a href="${post.link}" class="image featured">
-          <img src="${post.img.src}" alt="${post.img.alt}" />
-        </a>
-        <p>${post.content}</p>
+        ${post.img ? `<a href="post.html?id=${post.id}" class="image featured"><img src="${post.img.src}" alt="${post.img.alt}"></a>` : ''}
+        <p>${post.content ? post.content.slice(0, 100) + "..." : ''}</p>
         <footer>
           <ul class="actions">
-            <li><a href="${post.link}" class="button large">Continue Reading</a></li>
+            <li><a href="post.html?id=${post.id}" class="button large">Continue Reading</a></li>
           </ul>
         </footer>
       `;
       main.appendChild(mainArticle);
 
-      // 사이드바용 포스트
+      // 사이드바
       const li = document.createElement("li");
       li.innerHTML = `
         <article>
           <header>
-            <h3><a href="${post.link}">${post.title}</a></h3>
-            <time class="published" datetime="${post.date}">
-              ${new Date(post.date).toLocaleDateString()}
-            </time>
+            <h3><a href="post.html?id=${post.id}">${post.title}</a></h3>
+            <time class="published">${post.date ? new Date(post.date).toLocaleDateString() : ''}</time>
           </header>
-          <a href="${post.link}" class="image">
-            <img src="${post.img.src}" alt="${post.img.alt}" />
-          </a>
+          ${post.img ? `<a href="post.html?id=${post.id}" class="image"><img src="${post.img.src}" alt="${post.img.alt}"></a>` : ''}
         </article>
       `;
       postsList.appendChild(li);
