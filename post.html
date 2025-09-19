@@ -26,21 +26,18 @@
         </div>
     </div>
 
-    <!-- Sidebar -->
+    <!-- Sidebar (원래 템플릿 그대로) -->
     <section id="sidebar">
-        <!-- 소개 -->
         <section>
             <h2>About</h2>
             <p>안녕하세요, Joseph Song의 블로그입니다. 🎉</p>
         </section>
 
-        <!-- 포스트 목록 -->
         <section>
             <h2>Posts</h2>
             <ul class="posts"><!-- posts-sync.js에서 자동 채움 --></ul>
         </section>
 
-        <!-- 연락처 -->
         <section>
             <h2>Contact</h2>
             <ul class="icons">
@@ -107,11 +104,20 @@
     const prevPost = sortedPosts[currentIndex - 1];
     const nextPost = sortedPosts[currentIndex + 1];
 
-    prevBtn.style.display = prevPost ? 'inline-block' : 'none';
-    nextBtn.style.display = nextPost ? 'inline-block' : 'none';
+    if (prevPost) {
+        prevBtn.style.display = 'inline-block';
+        prevBtn.onclick = () => window.location.href = `post.html?id=${prevPost.id}`;
+    } else {
+        prevBtn.style.display = 'none';
+    }
 
-    if (prevPost) prevBtn.onclick = () => window.location.href = `post.html?id=${prevPost.id}`;
-    if (nextPost) nextBtn.onclick = () => window.location.href = `post.html?id=${nextPost.id}`;
+    if (nextPost) {
+        nextBtn.style.display = 'inline-block';
+        nextBtn.onclick = () => window.location.href = `post.html?id=${nextPost.id}`;
+    } else {
+        nextBtn.style.display = 'none';
+    }
+
 })();
 </script>
 </body>
