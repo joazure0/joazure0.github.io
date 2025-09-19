@@ -9,92 +9,63 @@
 <body class="single is-preload">
 <div id="wrapper">
 
-  <!-- Sidebar -->
-  <section id="sidebar">
-    <!-- 소개 -->
-    <section>
-      <h2>About</h2>
-      <p>안녕하세요, Joseph Song의 블로그입니다. 🎉</p>
-    </section>
-
-    <!-- 포스트 목록 -->
-    <section>
-      <h2>Posts</h2>
-      <ul class="posts" id="sidebar-posts"><!-- JS에서 채움 --></ul>
-    </section>
-
-    <!-- 연락처 -->
-    <section>
-      <h2>Contact</h2>
-      <ul class="icons">
-        <li><a href="mailto:ssyakmu@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
-        <li><a href="https://github.com/joazure0" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
-      </ul>
-    </section>
-  </section>
+  <!-- Header -->
+  <header id="header">
+    <h1><a href="index.html">Joseph의 블로그</a></h1>
+  </header>
 
   <!-- Main -->
   <div id="main">
-    <article class="post" id="post-content">
-      <!-- 글 내용은 JS에서 채움 -->
-    </article>
+    <div id="post-content"></div>
   </div>
 
+  <!-- Footer -->
+  <section id="footer">
+    <p>&copy; Joseph Song</p>
+  </section>
 </div>
 
-<!-- Scripts -->
-<script src="assets/js/jquery.min.js"></script>
 <script>
 (async function() {
+  const params = new URLSearchParams(window.location.search);
+  const id = parseInt(params.get('id'));
+
   const res = await fetch('posts.json');
   const posts = await res.json();
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const postId = parseInt(urlParams.get('id'));
-  const post = posts.find(p => p.id === postId);
-
-  // 사이드바 포스트 목록 채우기
-  const sidebarPosts = document.getElementById('sidebar-posts');
-  sidebarPosts.innerHTML = '';
-  posts.forEach(p => {
-    const li = document.createElement('li');
-    li.innerHTML = `<article>
-      <header>
-        <h3><a href="post.html?id=${p.id}">${p.title}</a></h3>
-        ${p.date ? `<time class="published">${new Date(p.date).toLocaleDateString()}</time>` : ''}
-      </header>
-    </article>`;
-    sidebarPosts.appendChild(li);
-  });
+  const post = posts.find(p => p.id === id);
+  const container = document.getElementById('post-content');
 
   if (!post) {
-    document.getElementById('post-content').innerHTML = "<p>해당 글을 찾을 수 없습니다.</p>";
+    container.innerHTML = "<p>글을 찾을 수 없습니다.</p>";
     return;
   }
 
-  // 글 내용 채우기
-  const contentEl = document.getElementById('post-content');
-  contentEl.innerHTML = `
+  // 글 렌더링
+  container.innerHTML = `
     <header>
       <div class="title">
         <h2>${post.title}</h2>
-        ${post.subtitle ? `<p>${post.subtitle}</p>` : ''}
+        ${post.subtitle ? `<p>${post.subtitle}</p>` : ""}
       </div>
       <div class="meta">
-        ${post.date ? `<time class="published">${new Date(post.date).toLocaleDateString()}</time>` : ''}
-        ${post.author ? `<span class="name">${post.author.name}</span>` : ''}
-        ${post.author && post.author.img ? `<img src="${post.author.img}" alt="" />` : ''}
+        ${post.date ? `<time class="published">${new Date(post.date).toLocaleDateString()}</time>` : ""}
+        ${post.author ? `<a href="#" class="author"><span class="name">${post.author.name}</span>${post.author.img ? `<img src="${post.author.img}" alt="" />` : ""}</a>` : ""}
       </div>
     </header>
-    ${post.img ? `<span class="image featured"><img src="${post.img.src}" alt="${post.img.alt || ''}" /></span>` : ''}
-    ${post.content || ''}
-    <footer>
-      <ul class="actions">
-        ${posts.find(p => p.id === postId - 1) ? `<li><a href="post.html?id=${postId - 1}" class="button">Previous</a></li>` : ''}
-        ${posts.find(p => p.id === postId + 1) ? `<li><a href="post.html?id=${postId + 1}" class="button">Next</a></li>` : ''}
-      </ul>
-    </footer>
+    ${post.img ? `<span class="image featured"><img src="${post.img.src}" alt="${post.img.alt || ""}" /></span>` : ""}
+    ${post.content || ""}
   `;
+
+  // 이전 / 다음 버튼
+  const currentIndex = posts.findIndex(p => p.id === id);
+  const nav = document.createElement("div");
+  nav.classList.add("post-nav");
+  nav.innerHTML = `
+    ${currentIndex > 0 ? `<a href="post.html?id=${posts[currentIndex-1].id}" class="button">Previous</a>` : ""}
+    ${currentIndex < posts.length-1 ? `<a href="post.html?id=${posts[currentIndex+1].id}" class="button">Next</a>` : ""}
+  `;
+  container.appendChild(nav);
 })();
 </script>
 </body>
