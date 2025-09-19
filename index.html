@@ -11,33 +11,32 @@
 
     <!-- Main -->
     <div id="main">
-      <div id="posts-container"><!-- JS에서 포스트 목록 자동 생성 --></div>
+      <!-- posts-sync.js가 여기 내용을 자동 생성 -->
     </div>
 
     <!-- Sidebar -->
     <section id="sidebar">
-      <!-- About -->
+      <!-- 소개 -->
       <section>
         <h2>About</h2>
         <p>안녕하세요, Joseph Song의 블로그입니다. 🎉</p>
       </section>
 
-      <!-- Posts -->
+      <!-- 포스트 목록 -->
       <section>
         <h2>Posts</h2>
-        <ul class="posts"><!-- JS에서 포스트 목록 자동 생성 --></ul>
+        <ul class="posts"><!-- posts-sync.js에서 자동 채움 --></ul>
       </section>
 
-      <!-- Contact -->
+      <!-- 연락처 -->
       <section>
         <h2>Contact</h2>
         <ul class="icons">
-          <li><a href="mailto:ssyakmu@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+          <li><a href="ssyakmu@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
           <li><a href="https://github.com/joazure0" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
         </ul>
       </section>
     </section>
-
   </div>
 
   <!-- Scripts -->
@@ -46,6 +45,7 @@
   <script src="assets/js/breakpoints.min.js"></script>
   <script src="assets/js/util.js"></script>
   <script src="assets/js/main.js"></script>
+  <!-- 글 동기화 스크립트 -->
   <script src="assets/js/posts-sync.js"></script>
 </body>
 </html>
