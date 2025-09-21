@@ -6,24 +6,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="assets/css/main.css" />
 </head>
-<body class="single is-preload">
+<body class="is-preload">
 <div id="wrapper">
-
-  <!-- Header -->
-  <header id="header">
-    <h1><a href="index.html">Joseph의 블로그</a></h1>
-  </header>
 
   <!-- Main -->
   <div id="main">
     <div id="post-content"></div>
   </div>
 
-  <!-- Footer -->
-  <section id="footer">
-    <p>&copy; Joseph Song</p>
+  <!-- Sidebar -->
+  <section id="sidebar">
+    <!-- 소개 -->
+    <section>
+      <h2>About</h2>
+      <p>안녕하세요, Joseph Song의 블로그입니다. 🎉</p>
+    </section>
+
+    <!-- 포스트 목록 -->
+    <section>
+      <h2>Posts</h2>
+      <ul class="posts"><!-- posts-sync.js에서 자동 채움 --></ul>
+    </section>
+
+    <!-- 연락처 -->
+    <section>
+      <h2>Contact</h2>
+      <ul class="icons">
+        <li><a href="mailto:ssyakmu@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+        <li><a href="https://github.com/joazure0" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+      </ul>
+    </section>
   </section>
 </div>
+
+<!-- Scripts -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/posts-sync.js"></script>
 
 <script>
 (async function() {
@@ -43,18 +65,20 @@
 
   // 글 렌더링
   container.innerHTML = `
-    <header>
-      <div class="title">
-        <h2>${post.title}</h2>
-        ${post.subtitle ? `<p>${post.subtitle}</p>` : ""}
-      </div>
-      <div class="meta">
-        ${post.date ? `<time class="published">${new Date(post.date).toLocaleDateString()}</time>` : ""}
-        ${post.author ? `<a href="#" class="author"><span class="name">${post.author.name}</span>${post.author.img ? `<img src="${post.author.img}" alt="" />` : ""}</a>` : ""}
-      </div>
-    </header>
-    ${post.img ? `<span class="image featured"><img src="${post.img.src}" alt="${post.img.alt || ""}" /></span>` : ""}
-    ${post.content || ""}
+    <article>
+      <header>
+        <div class="title">
+          <h2>${post.title}</h2>
+          ${post.subtitle ? `<p>${post.subtitle}</p>` : ""}
+        </div>
+        <div class="meta">
+          ${post.date ? `<time class="published">${new Date(post.date).toISOString().slice(0, 10)}</time>` : ""}
+          ${post.author ? `<span class="name">${post.author.name}</span>` : ""}
+        </div>
+      </header>
+      ${post.img ? `<span class="image featured"><img src="${post.img.src}" alt="${post.img.alt || ""}" /></span>` : ""}
+      ${post.content || ""}
+    </article>
   `;
 
   // 이전 / 다음 버튼
@@ -66,6 +90,9 @@
     ${currentIndex < posts.length-1 ? `<a href="post.html?id=${posts[currentIndex+1].id}" class="button">Next</a>` : ""}
   `;
   container.appendChild(nav);
+
+  // 페이지 <title>도 글 제목 반영
+  document.title = `${post.title} - Joseph의 블로그`;
 })();
 </script>
 </body>
