@@ -11,18 +11,23 @@ async function renderPosts() {
     postsContainer.innerHTML = "";
 
     posts.forEach(post => {
-      // 사이드바 포스트 목록
+      // ===== 사이드바 포스트 목록 (이미지 포함) =====
       const li = document.createElement("li");
       li.innerHTML = `
         <article>
+          ${post.img ? `<a href="post.html?id=${post.id}" class="image"><img src="${post.img.src}" alt="${post.img.alt || ""}" /></a>` : ""}
           <header>
             <h3><a href="post.html?id=${post.id}">${post.title}</a></h3>
-            ${post.date ? `<time class="published">${new Date(post.date).toLocaleDateString()}</time>` : ""}
+            ${post.date ? `<time class="published">${new Date(post.date).toISOString().slice(0, 10)}</time>` : ""}
           </header>
         </article>`;
       postsList.appendChild(li);
 
-      // 메인 페이지 미리보기(요약)
+      // ===== 메인 페이지 미리보기 =====
+      const preview = post.content
+        ? post.content.replace(/<[^>]+>/g, "").slice(0, 120) + "..."
+        : "";
+
       const article = document.createElement("article");
       article.classList.add("post");
       article.innerHTML = `
@@ -32,14 +37,14 @@ async function renderPosts() {
             ${post.subtitle ? `<p>${post.subtitle}</p>` : ""}
           </div>
           <div class="meta">
-            ${post.date ? `<time class="published">${new Date(post.date).toLocaleDateString()}</time>` : ""}
+            ${post.date ? `<time class="published">${new Date(post.date).toISOString().slice(0, 10)}</time>` : ""}
             ${post.author ? `<span class="name">${post.author.name}</span>` : ""}
           </div>
         </header>
         ${post.img ? `<a href="post.html?id=${post.id}" class="image featured">
           <img src="${post.img.src}" alt="${post.img.alt || ""}" />
         </a>` : ""}
-        ${post.content ? `<p>${post.content}</p>` : ""}
+        <p>${preview}</p>
         <footer>
           <ul class="actions">
             <li><a href="post.html?id=${post.id}" class="button large">Continue Reading</a></li>
