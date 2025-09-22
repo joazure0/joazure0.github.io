@@ -1,31 +1,11 @@
-Future Imperfect by HTML5 UP
-html5up.net | @ajlkn
-Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+블로그 만들기 수업에 오신 걸 환영합니다!
 
+원하는 포스트를 만들고 싶을 경우 posts.json 파일을 형식에 맞게 수정하시면 됩니다.
+삽입하고 싶은 이미지 파일이 있을 경우 images 폴더에 넣어주신 후 posts.json 파일에서 경로를 지정해주시면 됩니다.
+또한, index.html 파일에서 블로그의 제목, 파비콘 등을 수정할 수 있습니다.
 
-It's been a long time coming, but I've finally gotten around to creating a brand new
-blog-style template (and the first since Striped, which came out waaaaay back in 2013).
-Anyway, Future Imperfect features a clean, expansive layout, a toggleable search box,
-and -- because pretty much all modern browsers can use it now -- a whole lot of flexbox
-action. Enjoy it :)
+본인이 css에 대한 이해가 어느정도 있어 블로그를 본인이 원하는 대로 디자인하고 싶다면 assets/css/main.css 파일을 수정하시면 됩니다.
 
-Demo images* courtesy of Unsplash, a radtastic collection of CC0 (public domain) images
-you can use for pretty much whatever.
+코드 수정에 대해 오류나 기타 질문 사항이 있을 경우 ssyakmu@gmail.com으로 문의바랍니다.
 
-(* = not included)
-
-AJ
-aj@lkn.io | @ajlkn
-
-
-Credits:
-
-	Demo Images:
-		Unsplash (unsplash.com)
-
-	Icons:
-		Font Awesome (fontawesome.io)
-
-	Other:
-		jQuery (jquery.com)
-		Responsive Tools (github.com/ajlkn/responsive-tools)
+감사합니다.

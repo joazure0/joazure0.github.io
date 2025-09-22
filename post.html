@@ -12,12 +12,6 @@
 <!-- Header -->
 <header id="header">
   <h1><a href="index.html">Joseph의 블로그</a></h1>
-  <nav class="links">
-    <ul>
-      <li><a href="about.html">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-  </nav>
 </header>
 
   <!-- Main -->
@@ -80,12 +74,12 @@
       <header>
         <div class="title">
           <h2>${post.title}</h2>
-          ${post.subtitle ? `<p>${post.subtitle}</p>` : ""}
+          <!--${post.subtitle ? `<p>${post.subtitle}</p>` : ""} -->
         </div>
-        <div class="meta">
+        <!-- <div class="meta">
           ${post.date ? `<time class="published">${new Date(post.date).toISOString().slice(0, 10)}</time>` : ""}
           ${post.author ? `<span class="name">${post.author.name}</span>` : ""}
-        </div>
+        </div> -->
       </header>
       ${post.img ? `<span class="image featured"><img src="${post.img.src}" alt="${post.img.alt || ""}" /></span>` : ""}
       ${post.content || ""}
