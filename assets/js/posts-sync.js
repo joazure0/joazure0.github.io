@@ -26,10 +26,17 @@ async function renderPosts() {
     if (postsContainer) {
       postsContainer.innerHTML = "";
       posts.forEach(post => {
-        // 첫 줄 글자 10자만 추출 + "..."
-        let text = post.content ? post.content.replace(/<[^>]+>/g,"") : "";
-        let firstLine = text.split("\n")[0].trim();
-        if (firstLine.length > 10) firstLine = firstLine.slice(0,10) + "...";
+        // 첫 <p> 내용만 추출 + 10자 이상이면 ... 처리
+        let firstParagraph = "";
+        if (post.content) {
+          const match = post.content.match(/<p>(.*?)<\/p>/);
+          if (match && match[1]) {
+            firstParagraph = match[1].trim();
+            if (firstParagraph.length > 10) {
+              firstParagraph = firstParagraph.slice(0,10) + "...";
+            }
+          }
+        }
 
         const article = document.createElement("article");
         article.classList.add("post");
@@ -45,7 +52,7 @@ async function renderPosts() {
             </div>
           </header>
           ${post.img ? `<a href="post.html?id=${post.id}" class="image featured"><img src="${post.img.src}" alt="${post.img.alt || ""}" /></a>` : ""}
-          <p>${firstLine}</p>
+          <p>${firstParagraph}</p>
           <footer>
             <ul class="actions">
               <li><a href="post.html?id=${post.id}" class="button large">Continue Reading</a></li>
