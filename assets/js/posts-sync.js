@@ -14,7 +14,7 @@ async function renderPosts() {
             ${post.img ? `<a href="post.html?id=${post.id}" class="image"><img src="${post.img.src}" alt="${post.img.alt || ""}" /></a>` : ""}
             <header>
               <h3><a href="post.html?id=${post.id}">${post.title}</a></h3>
-              ${post.date ? `<time class="published">${new Date(post.date).toISOString().slice(0,20)}</time>` : ""}
+              ${post.date ? `<time class="published">${new Date(post.date).toISOString().slice(0,10)}</time>` : ""}
             </header>
           </article>`;
         postsList.appendChild(li);
@@ -47,7 +47,7 @@ async function renderPosts() {
               ${post.subtitle ? `<p>${post.subtitle}</p>` : ""}
             </div>
             <div class="meta">
-              ${post.date ? `<time class="published">${new Date(post.date).toISOString().slice(0,20)}</time>` : ""}
+              ${post.date ? `<time class="published">${new Date(post.date).toISOString().slice(0,10)}</time>` : ""}
               ${post.author ? `<span class="name">${post.author.name}</span>` : ""}
             </div>
           </header>
