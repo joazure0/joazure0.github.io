@@ -2550,6 +2550,14 @@ input, select, textarea {
 				}
 
 /* Posts */
+/* 상세페이지 글 카드 스타일 */
+#post-content article {
+  background-color: #fff;      /* 흰색 배경 */
+  padding: 2rem;               /* 내부 여백 */
+  border-radius: 10px;         /* 둥근 모서리 */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* 약간 그림자 */
+  margin-bottom: 2rem;         /* 아래 여백 */
+}
 
 	ul.posts {
 		list-style: none;
