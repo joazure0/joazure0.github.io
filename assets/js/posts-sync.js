@@ -3,10 +3,8 @@ async function renderPosts() {
     const response = await fetch("posts.json");
     const posts = await response.json();
 
+    // 사이드바 POSTS 목록
     const postsList = document.querySelector("#sidebar .posts");
-    const postsContainer = document.getElementById("posts-container");
-
-    // POSTS 목록이 있으면 채우기
     if (postsList) {
       postsList.innerHTML = "";
       posts.forEach(post => {
@@ -23,11 +21,16 @@ async function renderPosts() {
       });
     }
 
-    // 메인 페이지(posts-container)가 있으면 미리보기 채우기
+    // 메인 페이지(posts-container) 미리보기
+    const postsContainer = document.getElementById("posts-container");
     if (postsContainer) {
       postsContainer.innerHTML = "";
       posts.forEach(post => {
-        const preview = post.content ? post.content.replace(/<[^>]+>/g,"").slice(0,120)+"..." : "";
+        // 첫 줄 글자 10자만 추출 + "..."
+        let text = post.content ? post.content.replace(/<[^>]+>/g,"") : "";
+        let firstLine = text.split("\n")[0].trim();
+        if (firstLine.length > 10) firstLine = firstLine.slice(0,10) + "...";
+
         const article = document.createElement("article");
         article.classList.add("post");
         article.innerHTML = `
@@ -42,7 +45,7 @@ async function renderPosts() {
             </div>
           </header>
           ${post.img ? `<a href="post.html?id=${post.id}" class="image featured"><img src="${post.img.src}" alt="${post.img.alt || ""}" /></a>` : ""}
-          <p>${preview}</p>
+          <p>${firstLine}</p>
           <footer>
             <ul class="actions">
               <li><a href="post.html?id=${post.id}" class="button large">Continue Reading</a></li>
@@ -58,4 +61,5 @@ async function renderPosts() {
   }
 }
 
+// DOMContentLoaded 이벤트에 실행
 document.addEventListener("DOMContentLoaded", renderPosts);
