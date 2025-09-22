@@ -10,10 +10,10 @@
 <body class="is-preload">
 <div id="wrapper">
 
-<!-- Header -->
-<header id="header">
-  <h1><a href="index.html">Joseph의 블로그</a></h1>
-</header>
+  <!-- Header -->
+  <header id="header">
+    <h1><a href="index.html">Joseph의 블로그</a></h1>
+  </header>
 
   <!-- Main -->
   <div id="main">
@@ -31,7 +31,7 @@
     <!-- 포스트 목록 -->
     <section>
       <h2>Posts</h2>
-      <ul class="posts"><!-- posts-sync.js에서 자동 채움 --></ul>
+      <ul class="posts"></ul> <!-- posts-sync.js에서 자동 채움 -->
     </section>
 
     <!-- 연락처 -->
@@ -77,6 +77,10 @@
           <h2>${post.title}</h2>
           ${post.subtitle ? `<p>${post.subtitle}</p>` : ""}
         </div>
+        <div class="meta">
+          ${post.date ? `<time class="published">${new Date(post.date).toISOString().slice(0,10)}</time>` : ""}
+          ${post.author ? `<span class="name">${post.author.name}</span>` : ""}
+        </div>
       </header>
       ${post.img ? `<span class="image featured"><img src="${post.img.src}" alt="${post.img.alt || ""}" /></span>` : ""}
       ${post.content || ""}
@@ -93,8 +97,9 @@
   `;
   container.appendChild(nav);
 
-  // 페이지 <title>도 글 제목 반영
+  // 페이지 <title> 반영
   document.title = `${post.title} - Joseph의 블로그`;
+
 })();
 </script>
 </body>
