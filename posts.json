@@ -4,8 +4,8 @@
     "title": "나의 첫 블로그 글",
     "subtitle": "업데이트 확인",
     "date": "2025-09-16",
-    "author": { "name": "Joseph Song", "img": "images/test.png" },
-    "img": { "src": "images/Christmas1.png", "alt": "크리스마스 사진" },
+    "author": { "name": "Joseph Song", "img": "images/pic01.jpg" },
+    "img": { "src": "images/pic02.jpg", "alt": "크리스마스 사진" },
     "content": "<p>오늘은 깃허브 블로그를 만들었어요.</p><h2>소제목 폰트</h2><ul><li>HTML 템플릿 적용 완료</li><li>GitHub Pages 배포 완료</li></ul><p><strong>강조</strong>나 <em>기울임</em>도 가능</p>"
   },
   {
@@ -13,8 +13,8 @@
     "title": "두 번째 글",
     "subtitle": "테스트 내용",
     "date": "2025-09-17",
-    "author": { "name": "Joseph Song", "img": "images/Christmas1.png" },
-    "img": { "src": "images/Christmas2.png", "alt": "테스트 이미지" },
+    "author": { "name": "Joseph Song", "img": "images/pic03.jpg" },
+    "img": { "src": "images/pic04.jpg", "alt": "테스트 이미지" },
     "content": "<p>두 번째 글 내용입니다.</p>"
   }
 ]
