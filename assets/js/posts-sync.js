@@ -14,7 +14,7 @@ async function renderPosts() {
             ${post.img ? `<a href="post.html?id=${post.id}" class="image"><img src="${post.img.src}" alt="${post.img.alt || ""}" /></a>` : ""}
             <header>
               <h3><a href="post.html?id=${post.id}">${post.title}</a></h3>
-              ${post.date ? `<time class="published">${new Date(post.date).toISOString().slice(0,10)}</time>` : ""}
+              ${post.date ? `<time class="published">${new Date(post.date).toISOString().slice(0,20)}</time>` : ""}
             </header>
           </article>`;
         postsList.appendChild(li);
@@ -26,14 +26,14 @@ async function renderPosts() {
     if (postsContainer) {
       postsContainer.innerHTML = "";
       posts.forEach(post => {
-        // 첫 <p> 내용만 추출 + 10자 이상이면 ... 처리
+        // 첫 <p> 내용만 추출 + 20자 이상이면 ... 처리
         let firstParagraph = "";
         if (post.content) {
           const match = post.content.match(/<p>(.*?)<\/p>/);
           if (match && match[1]) {
             firstParagraph = match[1].trim();
-            if (firstParagraph.length > 10) {
-              firstParagraph = firstParagraph.slice(0,10) + "...";
+            if (firstParagraph.length > 20) {
+              firstParagraph = firstParagraph.slice(0,20) + "...";
             }
           }
         }
@@ -47,7 +47,7 @@ async function renderPosts() {
               ${post.subtitle ? `<p>${post.subtitle}</p>` : ""}
             </div>
             <div class="meta">
-              ${post.date ? `<time class="published">${new Date(post.date).toISOString().slice(0,10)}</time>` : ""}
+              ${post.date ? `<time class="published">${new Date(post.date).toISOString().slice(0,20)}</time>` : ""}
               ${post.author ? `<span class="name">${post.author.name}</span>` : ""}
             </div>
           </header>
