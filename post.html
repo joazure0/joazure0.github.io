@@ -22,19 +22,16 @@
 
   <!-- Sidebar -->
   <section id="sidebar">
-    <!-- 소개 -->
     <section>
       <h2>About</h2>
       <p>안녕하세요, Joseph Song의 블로그입니다. 🎉</p>
     </section>
 
-    <!-- 포스트 목록 -->
     <section>
       <h2>Posts</h2>
-      <ul class="posts"></ul> <!-- posts-sync.js에서 자동 채움 -->
+      <ul class="posts"></ul>
     </section>
 
-    <!-- 연락처 -->
     <section>
       <h2>Contact</h2>
       <ul class="icons">
@@ -45,13 +42,13 @@
   </section>
 </div>
 
-<!-- Scripts -->
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/browser.min.js"></script>
 <script src="assets/js/breakpoints.min.js"></script>
 <script src="assets/js/util.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/posts-sync.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
 <script>
 (async function() {
@@ -60,13 +57,20 @@
 
   const res = await fetch('posts.json');
   const posts = await res.json();
-
   const post = posts.find(p => p.id === id);
   const container = document.getElementById('post-content');
 
   if (!post) {
     container.innerHTML = "<p>글을 찾을 수 없습니다.</p>";
     return;
+  }
+
+  // Markdown 로드
+  let contentHtml = "";
+  if (post.md) {
+    const mdRes = await fetch(post.md);
+    const mdText = await mdRes.text();
+    contentHtml = marked.parse(mdText);
   }
 
   // 글 렌더링
@@ -79,7 +83,7 @@
         </div>
       </header>
       ${post.img ? `<span class="image featured"><img src="${post.img.src}" alt="${post.img.alt || ""}" /></span>` : ""}
-      ${post.content || ""}
+      ${contentHtml}
     </article>
   `;
 
@@ -93,9 +97,7 @@
   `;
   container.appendChild(nav);
 
-  // 페이지 <title> 반영
   document.title = `${post.title} - Joseph의 블로그`;
-
 })();
 </script>
 </body>

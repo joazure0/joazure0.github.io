@@ -25,17 +25,13 @@ async function renderPosts() {
     const postsContainer = document.getElementById("posts-container");
     if (postsContainer) {
       postsContainer.innerHTML = "";
-      posts.forEach(post => {
-        // 첫 <p> 내용만 추출 + 20자 이상이면 ... 처리
-        let firstParagraph = "";
-        if (post.content) {
-          const match = post.content.match(/<p>(.*?)<\/p>/);
-          if (match && match[1]) {
-            firstParagraph = match[1].trim();
-            if (firstParagraph.length > 20) {
-              firstParagraph = firstParagraph.slice(0,20) + "...";
-            }
-          }
+      for (let post of posts) {
+        let firstLine = "";
+        if (post.md) {
+          const mdRes = await fetch(post.md);
+          const mdText = await mdRes.text();
+          const firstParagraph = mdText.split("\n")[0].trim();
+          firstLine = firstParagraph.length > 20 ? firstParagraph.slice(0,20)+"..." : firstParagraph;
         }
 
         const article = document.createElement("article");
@@ -52,7 +48,7 @@ async function renderPosts() {
             </div>
           </header>
           ${post.img ? `<a href="post.html?id=${post.id}" class="image featured"><img src="${post.img.src}" alt="${post.img.alt || ""}" /></a>` : ""}
-          <p>${firstParagraph}</p>
+          <p>${firstLine}</p>
           <footer>
             <ul class="actions">
               <li><a href="post.html?id=${post.id}" class="button large">Continue Reading</a></li>
@@ -60,7 +56,7 @@ async function renderPosts() {
           </footer>
         `;
         postsContainer.appendChild(article);
-      });
+      }
     }
 
   } catch (err) {
@@ -68,5 +64,4 @@ async function renderPosts() {
   }
 }
 
-// DOMContentLoaded 이벤트에 실행
 document.addEventListener("DOMContentLoaded", renderPosts);
