@@ -3356,7 +3356,7 @@ input, select, textarea {
 		@media screen and (max-width: 1280px) {
 
 			#wrapper {
-				display: block;
+				display: flex;
 			}
 
 		}
@@ -3370,7 +3370,7 @@ input, select, textarea {
 		}
 
 		body.single #wrapper {
-			display: block;
+			display: flex;
 		}
 
 /* Main */
