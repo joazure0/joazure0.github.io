@@ -1,52 +1,90 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8" />
-  <title>내 블로그</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-  <link rel="stylesheet" href="assets/css/main.css" />
-  <link rel="icon" href="images/p.ico" type="image/x-icon" />
+  
+  <title>대성중학교 홈페이지 코딩 예시</title>
 
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <!-- 스마트폰이나 태블릿 화면에서도 제대로 보이도록 설정
+       width=device-width → 화면 너비를 기기와 동일하게
+       initial-scale=1 → 처음 화면 확대 비율 1
+       user-scalable=no → 사용자가 손가락으로 확대/축소 못하게 설정 -->
+
+  <link rel="stylesheet" href="assets/css/main.css" />
+
+  <link rel="icon" href="images/p.ico" type="image/x-icon" />
 </head>
+
 <body class="is-preload">
+<!-- 본문 시작, is-preload 클래스는 페이지 로딩 시 잠깐 효과를 주는 용도 -->
+
   <div id="wrapper">
+  <!-- 페이지 전체를 감싸는 박스 역할 -->
 
     <!-- Main -->
     <div id="main">
-      <div id="posts-container"></div> <!-- 여기에 포스트 미리보기 삽입 -->
+      <div id="posts-container"></div> 
+      <!-- 여기에 포스트 미리보기(글 목록) 삽입, JS에서 자동으로 내용을 채움 -->
     </div>
 
-    <!-- Sidebar -->
+    <!-- Sidebar (오른쪽 또는 왼쪽 사이드바) -->
     <section id="sidebar">
-      <!-- 소개 -->
+
+      <!-- 소개 섹션 -->
       <section>
         <h2>About</h2>
-        <p>안녕하세요, Joseph Song의 블로그입니다. 🎉</p>
+        <p>블로그가 어떤 형식으로 코딩되는지 알아보자</p>
+        <!-- 블로그에 대한 간단한 설명 -->
       </section>
 
-      <!-- 포스트 목록 -->
+      <!-- 포스트 목록 섹션 -->
       <section>
         <h2>Posts</h2>
-        <ul class="posts"><!-- posts-sync.js에서 자동 채움 --></ul>
+        <ul class="posts"><!-- posts-sync.js에서 자동으로 각 포스트 리스트 생성 --></ul>
       </section>
 
-      <!-- 연락처 -->
+      <!-- 연락처 섹션 -->
       <section>
         <h2>Contact</h2>
         <ul class="icons">
-          <li><a href="mailto:ssyakmu@gmail.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
-          <li><a href="https://github.com/joazure0" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+          <!-- 메일 주소 연결 -->
+          <li>
+            <a href="mailto:ssyakmu@gmail.com" class="icon solid fa-envelope">
+              <span class="label">Email</span>
+            </a>
+          </li>
+          <!-- 깃허브 링크 연결 -->
+          <li>
+            <a href="https://github.com/joazure0" class="icon brands fa-github">
+              <span class="label">GitHub</span>
+            </a>
+          </li>
         </ul>
       </section>
+
     </section>
   </div>
 
-  <!-- Scripts -->
+  <!-- Scripts: HTML에 동적인 기능을 추가할 JS 파일 연결 -->
   <script src="assets/js/jquery.min.js"></script>
+  <!-- jQuery 라이브러리: JS 기능을 쉽게 사용 가능하게 함 -->
+
   <script src="assets/js/browser.min.js"></script>
+  <!-- 브라우저 호환성을 위한 JS 코드 -->
+
   <script src="assets/js/breakpoints.min.js"></script>
+  <!-- 화면 크기별로 레이아웃을 조정하는 기능 -->
+
   <script src="assets/js/util.js"></script>
+  <!-- 유틸리티 함수 모음: JS에서 자주 쓰는 함수들 -->
+
   <script src="assets/js/main.js"></script>
+  <!-- 페이지 전체 JS 메인 파일 -->
+
   <script src="assets/js/posts-sync.js"></script>
+  <!-- posts.json 파일을 읽어서
+       메인 페이지와 사이드바에 글 목록을 자동으로 표시 -->
 </body>
 </html>
