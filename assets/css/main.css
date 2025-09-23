@@ -27,7 +27,7 @@ section, summary, time, mark, audio, video {
 
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-	display: block;}
+	display: flex;}
 
 body {
 	line-height: 1;
@@ -3221,7 +3221,7 @@ input, select, textarea {
 				}
 
 					#header .main ul li > * {
-						display: block;
+						display: flex;
 						float: left;
 					}
 
@@ -3249,7 +3249,7 @@ input, select, textarea {
 						}
 
 						#header .main ul li > a:before {
-							display: block;
+							display: flex;
 							height: inherit;
 							left: 0;
 							line-height: inherit;
